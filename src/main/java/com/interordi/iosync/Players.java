@@ -6,13 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
-import java.util.Arrays;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
@@ -471,23 +465,41 @@ public class Players implements Runnable {
 	}
 
 
-	//Get a world reference based on its ID
 	public World getWorldFromId(String worldName) {
-		World world = Bukkit.getWorlds().get(0);
-		if (worldName.equalsIgnoreCase("minecraft:overworld"))
-			world = Bukkit.getWorlds().get(0);
-		else if (worldName.equalsIgnoreCase("minecraft:the_nether"))
-			world = Bukkit.getWorlds().get(1);
-		else if (worldName.equalsIgnoreCase("minecraft:the_end"))
-			world = Bukkit.getWorlds().get(2);
-		else
-			world = Bukkit.getWorld(worldName.substring("minecraft:".length()));
+		if (worldName == null || worldName.isEmpty()) {
+			Bukkit.getLogger().warning("IOSync: World ID is null or empty, assuming overworld");
+			return Bukkit.getWorld("world"); // fallback
+		}
 
-		if (world == null)
-			Bukkit.getLogger().info("World NOT found as backup: " + worldName);
+		String id = worldName.toLowerCase(Locale.ROOT);
 
-		return world;
+		switch (id) {
+			case "minecraft:overworld":
+				return Bukkit.getWorld("world");
+
+			case "minecraft:the_nether":
+				return Bukkit.getWorld("world_nether");
+
+			case "minecraft:the_end":
+				return Bukkit.getWorld("world_the_end");
+		}
+
+		// Namespaced custom world: "xyz:myworld"
+		if (id.contains(":")) {
+			String afterColon = id.substring(id.indexOf(':') + 1);
+			World w = Bukkit.getWorld(afterColon);
+			if (w != null) return w;
+		}
+
+		// Try raw name
+		World world = Bukkit.getWorld(worldName);
+		if (world != null) return world;
+
+//		Bukkit.getLogger().warning("IOSync: World not found: " + worldName + ", assuming overworld");
+		return Bukkit.getWorld("world"); // final fallback
 	}
+
+
 
 
 	//Get a world ID based on its name
