@@ -150,7 +150,6 @@ public class Players implements Runnable {
                     }
 
                     World world = getWorldFromId(playerData.getString("Dimension"));
-                    Bukkit.getLogger().info("[IOSync Debug] LoadPlayer sent: " + world);
                     if (world != null)
                         playerSpawn.setWorld(world);
                     backupPosPlayers.put(playerUuid, playerSpawn);
@@ -165,7 +164,6 @@ public class Players implements Runnable {
                         playerRespawn.setX(pos[0]);
                         playerRespawn.setY(pos[1]);
                         playerRespawn.setZ(pos[2]);
-                        Bukkit.getLogger().info("[IOSync Debug] LoadPlayer respawn position sent: " + world);
                         world = getWorldFromId(respawnGroup.getString("dimension"));
                         if (world != null)
                             playerRespawn.setWorld(world);
@@ -183,7 +181,6 @@ public class Players implements Runnable {
                         playerRespawn.setX(playerData.getFloat("SpawnX"));
                         playerRespawn.setY(playerData.getFloat("SpawnY"));
                         playerRespawn.setZ(playerData.getFloat("SpawnZ"));
-                        Bukkit.getLogger().info("[IOSync Debug] SpawnDimension world sent: " + world);
                         world = getWorldFromId(playerData.getString("SpawnDimension"));
                         if (world != null)
                             playerRespawn.setWorld(world);
@@ -350,7 +347,6 @@ public class Players implements Runnable {
                     NBTCompound respawnGroup = playerData.getCompound("respawn");
                     int[] pos = respawnGroup.getIntArray("pos");
                     world = getWorldFromId(respawnGroup.getString("dimension"));
-                    Bukkit.getLogger().info("[IOSync Debug] dimension world sent: " + world);
                     if (world != null) {
                         bed = new Location(
                                 world,
@@ -369,7 +365,6 @@ public class Players implements Runnable {
                         playerData.hasTag("SpawnDimension")
                 ) {
                     world = getWorldFromId(playerData.getString("SpawnDimension"));
-                    Bukkit.getLogger().info("[IOSync Debug] SpawnDimension2 world sent: " + world);
                     if (world != null) {
                         bed = new Location(
                                 world,
@@ -471,7 +466,6 @@ public class Players implements Runnable {
 
     //Get a world reference based on its ID
     public World getWorldFromId(String worldName) {
-        Bukkit.getLogger().info("[IOSync Debug] getWorldFromId received: " + worldName);
         if (worldName == null || worldName.isEmpty()) {
             return Bukkit.getWorlds().get(0); // fallback to overworld
         }
