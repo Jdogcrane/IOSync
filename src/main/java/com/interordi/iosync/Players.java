@@ -287,7 +287,8 @@ public class Players implements Runnable {
             return;
 
         //Avoid item duping
-        plugin.getServer().savePlayers();
+        player.saveData();
+        //plugin.getServer().savePlayers();
 
         saveAllPositions();
         savePlayerInventory(player);
