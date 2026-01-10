@@ -107,8 +107,8 @@ public class LoginListener implements Listener {
 		Location pos = event.getPlayer().getBedSpawnLocation();
 		plugin.getPlayersInst().setPlayerSpawn(event.getPlayer(), pos);
 
-		plugin.getPlayersInst().saveAllPlayers();
-		//Players.savePlayerData(event.getPlayer());
+		//plugin.getPlayersInst().saveAllPlayers();
+		plugin.getPlayersInst().savePlayerData(event.getPlayer());
 	}
 
 
