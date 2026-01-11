@@ -473,6 +473,10 @@ public class Players implements Runnable {
 
 	//Get a world reference based on its ID
 	public World getWorldFromId(String worldName) {
+        if (worldName == null || worldName.isEmpty()) {
+            return Bukkit.getWorlds().get(0); // fallback to overworld
+        }
+
 		World world = Bukkit.getWorlds().get(0);
 		if (worldName.equalsIgnoreCase("minecraft:overworld"))
 			world = Bukkit.getWorlds().get(0);
