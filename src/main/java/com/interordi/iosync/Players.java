@@ -294,10 +294,10 @@ public class Players implements Runnable {
 			return;
 
 		//Avoid item duping
-		plugin.getServer().savePlayers();
+        saveAllPositions();
+		player.saveData();
 
-		saveAllPositions();
-		savePlayerInventory(player);
+		Bukkit.getScheduler().runTask(plugin, () -> savePlayerInventory(player));
 	}
 
 

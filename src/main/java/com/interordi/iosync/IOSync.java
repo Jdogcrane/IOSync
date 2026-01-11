@@ -74,8 +74,18 @@ public class IOSync extends JavaPlugin {
 
 
 	public void onDisable() {
-		thisPlayers.saveAllPositions(true);
+        //Save positions right away
+        for (Player player : getServer().getOnlinePlayers()) {
+            getPlayersInst().setPlayerPosition(player);
+        }
+        getPlayersInst().saveAllPositions(true);
 
+        //Avoid item duping
+        getServer().savePlayers();
+
+        for (Player player : getServer().getOnlinePlayers()) {
+            getPlayersInst().savePlayerInventory(player);
+        }
 		getLogger().info("IOSync disabled");
 	}
 	
